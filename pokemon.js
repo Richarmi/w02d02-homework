@@ -70,9 +70,9 @@ class Pokemon {
   getDefense() { return this.Defense; }
   getSpeed() { return this.Speed; }
   getHitPoints() { return this.HitPoints; }
-  knockOut() { if(HitPoints <= 0) { isKnockedOut = true; } return this.isKnockedOut; }
+  knockOut() { if(this.HitPoints <= 0) { this.isKnockedOut = true; } return this.isKnockedOut; }
 
-  damage(hitPointDecrement) { this.HitPoints -= hitPointDecrement; }
+  damage(hitPointDecrement) { this.HitPoints -= hitPointDecrement; this.knockOut();}
   setHitPoints(newHP) { this.HitPoints = newHP; }
 
   // elementAtack(elementDB, opposingPokemon)
@@ -108,12 +108,9 @@ class Pokemon {
 
   attack(opposingPokemon)
   {
-    console.log(this, " this is the attacking pokemon")
-    console.log(opposingPokemon, " this is opposingPokemon")
     let thisDamage = this.Attack - opposingPokemon.Defense;
     console.log(thisDamage, " this is thisDamage");
     if(thisDamage <= 0) { thisDamage = 1; }
-    console.log(thisDamage, " this is the new thisDamage");
     opposingPokemon.damage(thisDamage);
   }
 
@@ -259,7 +256,7 @@ class Game {
 
 }
 
-let charizard = new Pokemon("Charizard", 120, 100, 85, 120);// ["fire", "flying"]);
+let charizard = new Pokemon("Charizard", 1, 100, 85, 120);// ["fire", "flying"]);
 const blastoise= new Pokemon("Blastoise", 100, 85, 105, 65);// ["water", " "]);
 
 // const Ash = new Player("Ash", [charizard], false);
