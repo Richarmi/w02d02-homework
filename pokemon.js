@@ -108,8 +108,12 @@ class Pokemon {
 
   attack(opposingPokemon)
   {
+    console.log(this, " this is the attacking pokemon")
+    console.log(opposingPokemon, " this is opposingPokemon")
     let thisDamage = this.Attack - opposingPokemon.Defense;
-    if(thisDamage < 0) { thisDamage = 1; }
+    console.log(thisDamage, " this is thisDamage");
+    if(thisDamage <= 0) { thisDamage = 1; }
+    console.log(thisDamage, " this is the new thisDamage");
     opposingPokemon.damage(thisDamage);
   }
 
@@ -255,11 +259,7 @@ class Game {
 
 }
 
-let a = 120;
-let b = 100;
-let c = 85;
-let d = 120;
-let charizard = new Pokemon("Charizard", a, b, c, d);// ["fire", "flying"]);
+let charizard = new Pokemon("Charizard", 120, 100, 85, 120);// ["fire", "flying"]);
 const blastoise= new Pokemon("Blastoise", 100, 85, 105, 65);// ["water", " "]);
 
 // const Ash = new Player("Ash", [charizard], false);
