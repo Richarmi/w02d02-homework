@@ -120,34 +120,34 @@ class Player {
   constructor(Name, benchPokemon, computerBool)
   {
 
-    let playerName = "";
+    this.playerName = Name;
 
-    let benchedPokemon = [];
-    let chosenPokemon = null; // the pokemon to be chosen from
-                          // the set of benched pokemon
-    let knockedOutPokemon = 0; // counts the number of knocked out pokemon
+    this.benchedPokemon = benchPokemon;
+    this.chosenPokemon = null; // the pokemon to be chosen from
+                               // the set of benched pokemon
+    this.knockedOutPokemon = 0; // counts the number of knocked out pokemon
 
-    let isComputer = computerBool;
-    let loser = false;
+    this.isComputer = computerBool;
+    this.loser = false;
 
-    for(let i = 0; i < benchPokemon.length; i++)
-    {
-      benchedPokemon[i] = benchPokemon[i];
-    }
+    // for(let i = 0; i < benchPokemon.length; i++)
+    // {
+    //   this.benchedPokemon[i] = benchPokemon[i];
+    // }
   }
 
   getPlayerMode() { return this.isComputer; }
 
   choosePokemon()
   {
-    if(knockedOutPokemon > 0)
+    if(this.knockedOutPokemon > 0)
     {
-      while(this.chosenPokemon == null || chosenPokemon.isKnockedOut === true)
+      while(this.chosenPokemon == null || this.chosenPokemon.isKnockedOut === true)
       {
-        if(isComputer = false)
+        if(this.isComputer = false)
         {
-          chosenPokemon = prompt("Choose a pokemon to fight with: ");
-          console.log("You have chosen : " + chosenPokemon.getName());
+          this.chosenPokemon = prompt("Choose a pokemon to fight with: ");
+          console.log("You have chosen : " + this.chosenPokemon.getName());
         }
         else {
           // randomly choose the pokemon for that player
@@ -155,8 +155,8 @@ class Player {
       }
     }
     else {
-      loser = true;
-      chosenPokemon = null;
+      this.loser = true;
+      this.chosenPokemon = null;
     }
 
     return chosenPokemon;
@@ -164,12 +164,12 @@ class Player {
 
   getChosenPokemon() { return this.chosenPokemon; }
 
-  addPokemon(thisPokemon) { benchedPokemon.push(thisPokemon); }
+  addPokemon(thisPokemon) { this.benchedPokemon.push(thisPokemon); }
 
   pokemonLost() {
-    if(chosenPokemon.knockOut() === true)
+    if(this.chosenPokemon.knockOut() === true)
     {
-      knockedOutPokemon++;
+      this.knockedOutPokemon++;
       return true;
     }
     else {
@@ -178,7 +178,7 @@ class Player {
   }
 
   hasLost() {
-    if(knockedOutPokemon === benchedPokemon.length)
+    if(this.knockedOutPokemon === benchedPokemon.length)
     {
       return true;
     }
@@ -259,16 +259,19 @@ class Game {
 let charizard = new Pokemon("Charizard", 1, 100, 85, 120);// ["fire", "flying"]);
 const blastoise= new Pokemon("Blastoise", 100, 85, 105, 65);// ["water", " "]);
 
-// const Ash = new Player("Ash", [charizard], false);
-// const Gary = ("Gary", [blastoise], true);
+const Ash = new Player("Ash", [charizard], false);
+const Gary = ("Gary", [blastoise], true);
 
-console.log(charizard);
-console.log(blastoise);
+console.log(Ash);
+console.log(Gary);
 
-blastoise.attack(charizard);
-
-console.log(charizard);
-console.log(blastoise);
+// console.log(charizard);
+// console.log(blastoise);
+//
+// blastoise.attack(charizard);
+//
+// console.log(charizard);
+// console.log(blastoise);
 
 
 
