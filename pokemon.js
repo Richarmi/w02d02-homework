@@ -121,7 +121,7 @@ class Player {
   {
 
     this.playerName = Name;
-
+    this.counter = 0;
     this.benchedPokemon = benchPokemon;
     this.chosenPokemon = null; // the pokemon to be chosen from
                                // the set of benched pokemon
@@ -140,26 +140,25 @@ class Player {
 
   choosePokemon()
   {
-    if(this.knockedOutPokemon > 0)
-    {
-      while(this.chosenPokemon == null || this.chosenPokemon.isKnockedOut === true)
-      {
-        if(this.isComputer = false)
+        if(this.isComputer === false)
         {
-          this.chosenPokemon = prompt("Choose a pokemon to fight with: ");
-          console.log("You have chosen : " + this.chosenPokemon.getName());
+          // this.chosenPokemon = prompt("Choose a pokemon to fight with: ");
+          // console.log("You have chosen : " + this.chosenPokemon.getName());
+
+          this.chosenPokemon = this.benchedPokemon[this.counter];
+          console.log(this.benchedPokemon[this.counter], "this is the benched pokemon");
+          this.counter++;
+
         }
         else {
           // randomly choose the pokemon for that player
-        }
-      }
-    }
-    else {
-      this.loser = true;
-      this.chosenPokemon = null;
-    }
 
-    return chosenPokemon;
+          this.chosenPokemon = this.benchedPokemon[this.counter];
+          console.log(this.benchedPokemon[this.counter], "this is the benched pokemon");
+          this.counter++;
+        }
+
+      return this.chosenPokemon;
   }
 
   getChosenPokemon() { return this.chosenPokemon; }
@@ -178,7 +177,7 @@ class Player {
   }
 
   hasLost() {
-    if(this.knockedOutPokemon === benchedPokemon.length)
+    if(this.knockedOutPokemon === this.benchedPokemon.length)
     {
       return true;
     }
@@ -190,14 +189,15 @@ class Player {
 }
 
 class Game {
-  constuructor(thePlayers)
+  constructor(thePlayers)
   {
-    Duelists = []; // the set of players (2 in this case)
+    this.Duelists = []; // the set of players (2 in this case)
 
     // create the players
     for(let i = 0; i < 2; i++)
     {
-      Duelists[i] = thePlayers[i];
+      this.Duelists.push(thePlayers[i]);
+      this.Duelists[i].choosePokemon();
     }
   }
 
@@ -208,44 +208,47 @@ class Game {
     let i = 0; // this is the turn counter;
 
     // Each player chooses a pokemon to fight with
-    this.Duelists[0].choosePokemon();
-    this.Duelists[1].choosePokemon();
+
+    // console.log("Here is the chosen pokemon for " + this.Duelists[0].playerName + ": ", this.Duelists[0].getChosenPokemon());
+    // console.log("Here is the chosen pokemon for " + this.Duelists[1].playerName + ": ", this.Duelists[1].getChosenPokemon());
 
     // begin battling
-    while(Duelists[i % 2].hasLost() === false && Duelists[(i+1) % 2].hasLost() === false)
+    while(this.Duelists[i % 2].hasLost() === false && this.Duelists[(i+1) % 2].hasLost() === false)
     {
       // loop until one of the pokemon that are battling gets knocked out
       while( (this.Duelists[i % 2].getChosenPokemon().knockOut() === false) &&
-      (this.Duelists[(i+1) % 2].getChosenPokemon.knockOut() === false) )
+      (this.Duelists[(i+1) % 2].getChosenPokemon().knockOut() === false) )
       {
-        Duelists[i % 2].getChosenPokemon().attack( Duelists[(i+1) % 2].getChosenPokemon() );
+        this.Duelists[i % 2].getChosenPokemon().attack( this.Duelists[(i+1) % 2].getChosenPokemon() );
         i++;
       }
 
       // the current player who has his/her pokemon knocked Out
       // must choose another pokemon, but if their current Pokemon
       // is not knocked out yet, they can choose their current pokemon.
-      if((this.Duelists[i % 2].pokemonLost() === true) ||
-      (this.Duelists[(i+1) % 2].pokemonLost() === true))
+      if(this.Duelists[i % 2].pokemonLost() === true)
       {
         this.Duelists[0].choosePokemon();
+      }
+      if(this.Duelists[(i+1) % 2].pokemonLost() === true)
+      {
         this.Duelists[1].choosePokemon();
       }
     }
 
-//margin, padding, display, vertical align, width, height,
+    // margin, padding, display, vertical align, width, height,
 
     // determine and print the status of each player
     for(let i = 0; i < 2; i++)
     {
-      if(Duelists[i].getPlayerMode() === true)
+      if(this.Duelists[i].getPlayerMode() === true)
       {
-        if(Duelists[i].loser() === false) { console.log("You won the match! "); }
+        if(this.Duelists[i].hasLost() === false) { console.log("You won the match! "); }
         else { console.log("You lost the match... "); }
       }
       else
       {
-        if(Duelists[i].loser() === false)
+        if(this.Duelists[i].hasLost() === false)
         {
           console.log(`Computer ${i} won the match`);
         }
@@ -256,14 +259,61 @@ class Game {
 
 }
 
+const thesePokemon = [
+{name: "Bulbasaur", damage:60},
+{name: "Caterpie", damage:40},
+{name: "Charmander", damage:60},
+{name: "Clefairy", damage:50},
+{name: "Jigglypuff", damage:60},
+{name: "Mankey", damage:30},
+{name: "Meowth", damage:60},
+{name: "Nidoran - female", damage:60},
+{name: "Nidoran - male", damage:50},
+{name: "Oddish", damage:40},
+{name: "Pidgey", damage:50},
+{name: "Pikachu", damage:50},
+{name: "Poliwag", damage:50},
+{name: "Psyduck", damage:60},
+{name: "Rattata", damage:30},
+{name: "Squirtle", damage:60},
+{name: "Vulpix", damage:50},
+{name: "Weedle", damage:40}
+]
+
+let formattedPokemon = [];
+
+for(let i = 0; i < thesePokemon.length; i++){
+  formattedPokemon[i] = new Pokemon(thesePokemon[i].name, 80, thesePokemon[i].damage, 10, 10);
+}
+
 let charizard = new Pokemon("Charizard", 1, 100, 85, 120);// ["fire", "flying"]);
-const blastoise= new Pokemon("Blastoise", 100, 85, 105, 65);// ["water", " "]);
+let blastoise= new Pokemon("Blastoise", 100, 85, 105, 65);// ["water", " "]);
+
 
 const Ash = new Player("Ash", [charizard], false);
-const Gary = ("Gary", [blastoise], true);
+const Gary = new Player("Gary", [blastoise], true);
 
-console.log(Ash);
-console.log(Gary);
+let thesePlayers = [];
+
+
+// console.log(Ash);
+// console.log(Gary);
+
+Ash.addPokemon(formattedPokemon[5]);
+Ash.addPokemon(formattedPokemon[10]);
+//Ash.choosePokemon();
+
+Gary.addPokemon(formattedPokemon[8]);
+Gary.addPokemon(formattedPokemon[16]);
+
+thesePlayers[0] = Ash;
+thesePlayers[1] = Gary;
+//Gary.choosePokemon();
+
+// console.log(Ash);
+// console.log(Gary);
+
+
 
 // console.log(charizard);
 // console.log(blastoise);
@@ -272,6 +322,9 @@ console.log(Gary);
 //
 // console.log(charizard);
 // console.log(blastoise);
+
+const thisGame = new Game(thesePlayers);
+thisGame.playGame();
 
 
 
